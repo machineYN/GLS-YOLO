@@ -89,6 +89,7 @@ from .head import (
     YOLOESegment,
     v10Detect,
 )
+from .gls import GRAConv, LGCM, MultiSEAM, SEAM
 from .transformer import (
     AIFI,
     MLP,
@@ -179,4 +180,8 @@ __all__ = (
     "TorchVision",
     "Index",
     "A2C2f",
+    "GRAConv",
+    "LGCM",
+    "SEAM",
+    "MultiSEAM",
 )

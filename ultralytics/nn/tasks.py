@@ -49,11 +49,14 @@ from ultralytics.nn.modules import (
     Focus,
     GhostBottleneck,
     GhostConv,
+    GRAConv,
     HGBlock,
     HGStem,
     ImagePoolingAttn,
     Index,
+    LGCM,
     LRPCHead,
+    MultiSEAM,
     Pose,
     RepC3,
     RepConv,
@@ -63,6 +66,7 @@ from ultralytics.nn.modules import (
     RTDETRDecoder,
     SCDown,
     Segment,
+    SEAM,
     TorchVision,
     WorldDetect,
     YOLOEDetect,
@@ -1644,6 +1648,8 @@ def parse_model(d, ch, verbose=True):
             SCDown,
             C2fCIB,
             A2C2f,
+            GRAConv,
+            LGCM,
         }
     )
     repeat_modules = frozenset(  # modules with 'repeat' arguments
@@ -1702,6 +1708,9 @@ def parse_model(d, ch, verbose=True):
                 legacy = False
         elif m is AIFI:
             args = [ch[f], *args]
+        elif m in frozenset({SEAM, MultiSEAM}):
+            c2 = ch[f]
+            args = [c2, *args]
         elif m in frozenset({HGStem, HGBlock}):
             c1, cm, c2 = ch[f], args[0], args[1]
             args = [c1, cm, c2, *args[2:]]
