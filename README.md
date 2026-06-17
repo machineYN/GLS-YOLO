@@ -60,6 +60,12 @@ Before running training or validation, update the `path` field in `data/poppy.ya
 
 ## Code Information
 
+Code repository:
+
+```text
+https://github.com/machineYN/GLS-YOLO
+```
+
 Important files:
 
 ```text
