@@ -12,7 +12,13 @@ The project is based on Ultralytics YOLO11s and implements the final GLS-YOLO mo
 
 ## Dataset Information
 
-The UAV-based poppy plant detection dataset used in the manuscript is provided separately for PeerJ review and publication as **raw data**. It should be uploaded either as a PeerJ Supplemental File with file type `Dataset`, or to a public data repository such as Figshare with a DOI.
+The UAV-based poppy plant detection dataset used in the manuscript is provided separately for PeerJ review and publication as **raw data**.
+
+Dataset DOI:
+
+```text
+https://doi.org/10.6084/m9.figshare.32676051
+```
 
 Dataset summary:
 
