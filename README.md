@@ -20,6 +20,8 @@ Dataset DOI:
 https://doi.org/10.6084/m9.figshare.32676051
 ```
 
+The Figshare repository contains the raw data required for review and reproduction, including UAV images, YOLO-format label files, dataset split files, and the dataset configuration file.
+
 Dataset summary:
 
 ```text
@@ -36,7 +38,7 @@ Image format: JPG
 Expected dataset directory format:
 
 ```text
-VOC2007/
+UAV_poppy_dataset/
 |-- images/
 |   |-- train/
 |   |-- val/
@@ -69,7 +71,7 @@ https://github.com/machineYN/GLS-YOLO
 Important files:
 
 ```text
-GLS-Yolo/
+GLS-YOLO/
 |-- README.md
 |-- pyproject.toml
 |-- train_gls_yolo.py
@@ -119,7 +121,7 @@ pip install -e .
 If PyTorch is not already installed, install a CUDA-compatible PyTorch version first. For the environment used in the manuscript:
 
 ```bash
-pip install torch==2.0.0 torchvision --index-url https://download.pytorch.org/whl/cu117
+pip install torch==2.0.0 torchvision==0.15.1 --index-url https://download.pytorch.org/whl/cu117
 ```
 
 Core Python dependencies are declared in `pyproject.toml`.
@@ -131,7 +133,7 @@ Core Python dependencies are declared in `pyproject.toml`.
 Place the dataset in the expected YOLO format, then edit `data/poppy.yaml` if needed:
 
 ```yaml
-path: D:/data/VOC2007
+path: D:/data/UAV_poppy_dataset
 train: images/train
 val: images/val
 test: images/test
@@ -152,8 +154,10 @@ python train_gls_yolo.py
 Equivalent Ultralytics command:
 
 ```bash
-yolo detect train model=ultralytics/cfg/models/11/gls-yolo.yaml data=data/poppy.yaml epochs=100 imgsz=640 batch=16 workers=16 optimizer=auto lr0=0.01 lrf=0.01 momentum=0.937
+yolo detect train model=ultralytics/cfg/models/11/gls-yolo.yaml data=data/poppy.yaml epochs=100 imgsz=640 batch=16 workers=16 optimizer=auto
 ```
+
+In the experiments reported in the manuscript, Ultralytics automatically selected AdamW with an effective learning rate of 0.002 and momentum of 0.9.
 
 ### 3. Validate GLS-YOLO
 
@@ -204,4 +208,4 @@ This project is based on Ultralytics YOLO and follows the AGPL-3.0 license. See 
 
 ## Contribution Guidelines
 
-This repository is provided to support review and reproduction of the manuscript. Issues or suggestions can be reported through the repository issue tracker if the code is hosted on a public repository.
+This repository is provided to support review and reproduction of the manuscript. Issues or suggestions can be reported through the repository issue tracker.
