@@ -8,7 +8,6 @@ test: images/test
 nc: 1
 names:
   0: poppy
-
 # Dataset summary reported in the paper:
 # original UAV images: 470
 # augmented images: 4794
