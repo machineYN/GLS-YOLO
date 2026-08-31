@@ -9,7 +9,7 @@ namespace so YAML model definitions can reference them directly.
 import torch
 import torch.nn as nn
 
-__all__ = "GRAConv", "LGCM", "SEAM", "MultiSEAM"
+__all__ = "LGCM", "SEAM", "GRAConv", "MultiSEAM"
 
 
 def _to_int_tuple(v):
@@ -50,8 +50,8 @@ class GLSConv(nn.Module):
 class GRAConv(nn.Module):
     """Gradient-Region Aggregation Convolution.
 
-    The module compares local and dilated contextual responses and uses their
-    difference to generate a structural attention map for downsampling stages.
+    The module compares local and dilated contextual responses and uses their difference to generate a structural
+    attention map for downsampling stages.
     """
 
     def __init__(self, c1, c2, k=3, s=1):
@@ -124,10 +124,14 @@ class LGCM(nn.Module):
         self.antiblur = _AntiAliasDW(c1, enable=self.s > 1)
         base_d = self.d if isinstance(self.d, int) else self.d[0]
         base_d = max(1, int(base_d))
-        self.dw_local = nn.Conv2d(c1, c1, self.k, self.s, autopad(self.k, p, base_d), groups=c1, dilation=base_d, bias=False)
+        self.dw_local = nn.Conv2d(
+            c1, c1, self.k, self.s, autopad(self.k, p, base_d), groups=c1, dilation=base_d, bias=False
+        )
         self.bn_local = nn.BatchNorm2d(c1)
         ctx_d = max(1, 2 * base_d)
-        self.dw_ctx = nn.Conv2d(c1, c1, self.k, self.s, autopad(self.k, p, ctx_d), groups=c1, dilation=ctx_d, bias=False)
+        self.dw_ctx = nn.Conv2d(
+            c1, c1, self.k, self.s, autopad(self.k, p, ctx_d), groups=c1, dilation=ctx_d, bias=False
+        )
         self.bn_ctx = nn.BatchNorm2d(c1)
         kk = self.k if isinstance(self.k, int) else self.k[0]
         mid = max(c1 // 4, 8)
@@ -208,7 +212,9 @@ class SEAM(nn.Module):
             ]
         )
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.fc = nn.Sequential(nn.Linear(c2, hidden, bias=False), nn.ReLU(inplace=True), nn.Linear(hidden, c2, bias=False), nn.Sigmoid())
+        self.fc = nn.Sequential(
+            nn.Linear(c2, hidden, bias=False), nn.ReLU(inplace=True), nn.Linear(hidden, c2, bias=False), nn.Sigmoid()
+        )
 
     def forward(self, x):
         b, c, _, _ = x.size()
@@ -225,9 +231,13 @@ class MultiSEAM(nn.Module):
         super().__init__()
         c2 = int(c1)
         hidden = max(c2 // int(reduction), 1)
-        self.branches = nn.ModuleList([_dcovn(c2, c2, depth, kernel_size=kernel_size, patch_size=p) for p in patch_size])
+        self.branches = nn.ModuleList(
+            [_dcovn(c2, c2, depth, kernel_size=kernel_size, patch_size=p) for p in patch_size]
+        )
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.fc = nn.Sequential(nn.Linear(c2, hidden, bias=False), nn.ReLU(inplace=True), nn.Linear(hidden, c2, bias=False), nn.Sigmoid())
+        self.fc = nn.Sequential(
+            nn.Linear(c2, hidden, bias=False), nn.ReLU(inplace=True), nn.Linear(hidden, c2, bias=False), nn.Sigmoid()
+        )
 
     def forward(self, x):
         b, c, _, _ = x.size()
